@@ -1,10 +1,10 @@
 variable "prefix" {
-  description = "자원 이름에 붙일 접두사"
+  description = "모든 리소스 이름 앞에 붙일 공통 접두사"
   type        = string
 }
 
 variable "vpc_cidr" {
-  description = "VPC의 CIDR 블록"
+  description = "VPC CIDR 블록"
   type        = string
 }
 
@@ -42,7 +42,7 @@ variable "database_subnets" {
 }
 
 variable "enable_nat_gateway" {
-  description = "프라이빗 서브넷에서 외부 접속이 필요할 경우 NAT Gateway 생성 여부"
+  description = "프라이빗 서브넷에서 NAT Gateway 생성 여부"
   type        = bool
   default     = true
 }

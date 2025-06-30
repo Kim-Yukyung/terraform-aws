@@ -144,7 +144,7 @@ resource "aws_route_table_association" "private" {
 resource "aws_route_table" "database" {
   for_each = var.database_subnets
 
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.main.id
 
   tags = merge(var.tags, {
     Name = "${var.prefix}-database-rt-${each.key}"

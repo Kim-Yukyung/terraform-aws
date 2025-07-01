@@ -68,11 +68,11 @@ resource "aws_eip" "nat" {
 
   domain = "vpc"
 
-  depends_on = [aws_internet_gateway.gw]
-
   tags = merge(var.tags, {
     Name = "${var.prefix}-eip-${each.key}"
   })
+
+  depends_on = [aws_internet_gateway.gw]
 }
 
 resource "aws_nat_gateway" "default" {
@@ -105,6 +105,8 @@ resource "aws_route" "public_internet_access" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.gw.id
+
+  depends_on = [aws_internet_gateway.gw]
 }
 
 # Public Route Table Association
@@ -127,10 +129,18 @@ resource "aws_route_table" "private" {
 
 # Private Route to NAT Gateway
 resource "aws_route" "private_nat_access" {
-  for_each               = var.enable_nat_gateway ? var.private_subnets : {}
+  for_each = var.enable_nat_gateway ? var.private_subnets : {}
+  
   route_table_id         = aws_route_table.private[each.key].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.default[each.key].id
+  
+  # Private subnet과 Public subnet의 키 매칭
+  # private-1a는 public-1a와 같은 AZ의 NAT를 사용
+  nat_gateway_id = aws_nat_gateway.default[
+    # private subnet의 키에서 AZ 부분을 추출하여 해당하는 public subnet의 NAT 사용
+    # private-1a -> public-1a의 NAT 사용
+    replace(each.key, "private-", "public-")
+  ].id
 }
 
 # Private Route Table Association

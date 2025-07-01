@@ -30,14 +30,35 @@ module "vpc" {
 
 module "security_groups" {
   source = "../../modules/security-groups"
-  
-  prefix   = "dev"
+
+  prefix = "dev"
 
   vpc_id = module.vpc.vpc_id
-  
+
   allowed_alb_cidr_blocks = ["0.0.0.0/0"]
   allowed_ssh_cidr_blocks = ["0.0.0.0/0"]
-  
+
+  tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}
+
+module "alb" {
+  source = "../../modules/alb"
+
+  prefix = "dev"
+
+  vpc_id             = module.vpc.vpc_id
+  subnet_ids         = module.vpc.public_subnet_ids
+  security_group_ids = [module.security_groups.alb_security_group_id]
+
+  enable_deletion_protection = true
+
+  target_group_port     = 8080
+  target_group_protocol = "HTTP"
+
   tags = {
     Environment = "dev"
     Project     = "aws"

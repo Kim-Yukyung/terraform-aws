@@ -27,3 +27,20 @@ module "vpc" {
     ManagedBy   = "terraform"
   }
 }
+
+module "security_groups" {
+  source = "../../modules/security-groups"
+  
+  prefix   = "dev"
+
+  vpc_id = module.vpc.vpc_id
+  
+  allowed_alb_cidr_blocks = ["0.0.0.0/0"]
+  allowed_ssh_cidr_blocks = ["0.0.0.0/0"]
+  
+  tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}

@@ -48,7 +48,7 @@ variable "enable_nat_gateway" {
 }
 
 variable "tags" {
-  description = "모든 자원에 공통으로 적용할 태그 맵"
+  description = "모든 리소스에 공통으로 적용할 태그 맵"
   type        = map(string)
   default     = {}
 }

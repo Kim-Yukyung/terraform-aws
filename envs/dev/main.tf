@@ -54,7 +54,7 @@ module "alb" {
   subnet_ids         = module.vpc.public_subnet_ids
   security_group_ids = [module.security_groups.alb_security_group_id]
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   target_group_port     = 8080
   target_group_protocol = "HTTP"

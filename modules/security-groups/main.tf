@@ -1,6 +1,6 @@
 # ALB Security Group
 resource "aws_security_group" "alb" {
-  name_prefix = "${var.prefix}-alb-"
+  name_prefix = "${var.prefix}-alb-sg-"
   vpc_id      = var.vpc_id
   description = "ALB security group"
 
@@ -42,7 +42,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_all" {
 
 # Bastion Host Security Group
 resource "aws_security_group" "bastion" {
-  name_prefix = "${var.prefix}-bastion-"
+  name_prefix = "${var.prefix}-bastion-sg-"
   vpc_id      = var.vpc_id
   description = "Bastion Host security group"
 
@@ -74,7 +74,7 @@ resource "aws_vpc_security_group_egress_rule" "bastion_all" {
 
 # Web Server Security Group
 resource "aws_security_group" "web" {
-  name_prefix = "${var.prefix}-web-"
+  name_prefix = "${var.prefix}-web-sg-"
   vpc_id      = var.vpc_id
   description = "Web Server security group"
 
@@ -111,7 +111,7 @@ resource "aws_vpc_security_group_ingress_rule" "web_https" {
 resource "aws_vpc_security_group_ingress_rule" "web_ssh" {
   security_group_id            = aws_security_group.web.id
   referenced_security_group_id = aws_security_group.bastion.id
-  
+
   from_port                    = 22
   to_port                      = 22
   ip_protocol                  = "tcp"
@@ -127,7 +127,7 @@ resource "aws_vpc_security_group_egress_rule" "web_all" {
 
 # Database Security Group
 resource "aws_security_group" "database" {
-  name_prefix = "${var.prefix}-db-"
+  name_prefix = "${var.prefix}-db-sg-"
   vpc_id      = var.vpc_id
   description = "RDS database security group"
 

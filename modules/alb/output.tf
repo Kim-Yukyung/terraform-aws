@@ -13,9 +13,9 @@ output "alb_zone_id" {
   value       = aws_lb.alb.zone_id
 }
 
-output "target_group_arn" {
-  description = "타겟 그룹 ARN"
-  value       = aws_lb_target_group.tg.arn
+output "target_group_arns" {
+  description = "타겟 그룹 ARN 목록"
+  value       = [aws_lb_target_group.tg.arn]
 }
 
 output "target_group_name" {

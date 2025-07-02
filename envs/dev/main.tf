@@ -54,10 +54,51 @@ module "alb" {
   subnet_ids         = module.vpc.public_subnet_ids
   security_group_ids = [module.security_groups.alb_security_group_id]
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   target_group_port     = 8080
   target_group_protocol = "HTTP"
+
+  tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}
+
+module "compute" {
+  source = "../../modules/compute"
+
+  prefix = "dev"
+
+  private_subnet_ids     = module.vpc.private_subnet_ids
+  availability_zones     = module.vpc.availability_zones
+  web_security_group_ids = [module.security_groups.web_security_group_id]
+
+  # ALB 연결 
+  target_group_arns = module.alb.target_group_arns
+
+  # 인스턴스 설정
+  instance_type    = "t3.micro"
+  user_data_script = file("${path.module}/scripts/web_server_setup.sh")
+
+  # 볼륨 설정
+  root_volume_size    = 30
+  root_volume_type    = "gp3"
+  encrypt_root_volume = true
+
+  # Auto Scaling 설정
+  min_size         = 1
+  max_size         = 3
+  desired_capacity = 2
+
+  # 스케일링 정책
+  enable_auto_scaling    = true
+  enable_step_scaling    = false
+  target_cpu_utilization = 70
+
+  # 모니터링
+  enable_detailed_monitoring = true
 
   tags = {
     Environment = "dev"

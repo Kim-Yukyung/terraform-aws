@@ -4,6 +4,11 @@ output "vpc_id" {
   value       = aws_vpc.main.id
 }
 
+output "vpc_cidr" {
+  description = "VPC CIDR 블록"
+  value       = aws_vpc.main.cidr_block
+}
+
 output "vpc_cidr_block" {
   description = "VPC CIDR 블록"
   value       = aws_vpc.main.cidr_block
@@ -54,4 +59,14 @@ output "nat_gateway_ids" {
 output "db_subnet_group_name" {
   description = "RDS에서 사용할 DB Subnet Group 이름"
   value       = length(aws_db_subnet_group.database) > 0 ? aws_db_subnet_group.database[0].name : null
+}
+
+# 가용 영역 목록
+output "availability_zones" {
+  description = "사용된 가용 영역 목록"
+  value = distinct(concat(
+    [for subnet in aws_subnet.public : subnet.availability_zone],
+    [for subnet in aws_subnet.private : subnet.availability_zone],
+    [for subnet in aws_subnet.database : subnet.availability_zone]
+  ))
 }

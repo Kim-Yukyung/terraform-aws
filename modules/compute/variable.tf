@@ -79,7 +79,7 @@ variable "target_group_arns" {
 variable "health_check_type" {
   description = "Health check 타입"
   type        = string
-  default     = "ALB"
+  default     = "ELB"
 }
 
 variable "health_check_grace_period" {

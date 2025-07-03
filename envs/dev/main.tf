@@ -106,3 +106,35 @@ module "compute" {
     ManagedBy   = "terraform"
   }
 }
+
+module "bastion" {
+  source = "../../modules/bastion"
+
+  prefix = "dev"
+
+  # 네트워킹
+  public_subnet_id   = module.vpc.public_subnet_ids[0] # 첫 번째 퍼블릭 서브넷 사용
+  security_group_ids = [module.security_groups.bastion_security_group_id]
+
+  # 인스턴스 설정
+  instance_type    = "t3.micro"
+  user_data_script = file("${path.module}/scripts/bastion_setup.sh")
+
+  # 볼륨 설정
+  root_volume_size    = 20
+  root_volume_type    = "gp3"
+  encrypt_root_volume = true
+
+  # Elastic IP
+  create_eip = true
+
+  # 모니터링
+  enable_detailed_monitoring = false
+
+  # 공통 태그
+  tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}

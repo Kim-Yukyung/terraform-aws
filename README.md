@@ -14,5 +14,7 @@
 <br>
 
 ### 참고 링크
-- [Terraform 공식 사이트](https://developer.hashicorp.com/terraform)
-- [Terraform AWS Provider 공식 문서](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) 
+
+[Terraform 공식 사이트](https://developer.hashicorp.com/terraform)  
+
+[Terraform AWS Provider 문서](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)

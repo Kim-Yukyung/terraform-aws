@@ -1,0 +1,29 @@
+name: PR terraform plan
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    name: Create terraform plan
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TF_VAR_db_username: ${{ secrets.DB_USERNAME }}
+      TF_VAR_db_password: ${{ secrets.DB_PASSWORD }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: terraform plan
+        uses: dflook/terraform-plan@v2
+        with:
+          path: envs/dev

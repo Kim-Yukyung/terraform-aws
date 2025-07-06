@@ -138,3 +138,45 @@ module "bastion" {
     ManagedBy   = "terraform"
   }
 }
+
+module "rds" {
+  source = "../../modules/rds"
+
+  prefix = "dev"
+
+  db_username = var.db_username
+  db_password = var.db_password
+
+  # 네트워크 설정
+  db_subnet_group_name = module.vpc.db_subnet_group_name
+  db_security_group_id = module.security_groups.database_security_group_id
+  publicly_accessible  = false
+
+  # 엔진 설정
+  engine         = "mysql"
+  engine_version = "8.0"
+  instance_class = "db.t3.micro"
+
+  # 스토리지 설정
+  allocated_storage     = 20
+  storage_type          = "gp3"
+  storage_encrypted     = true
+  max_allocated_storage = 100
+
+  multi_az = true
+
+  # 삭제 설정
+  skip_final_snapshot = true
+  deletion_protection = false
+
+  # 모니터링 설정
+  monitoring_interval          = 0
+  performance_insights_enabled = false
+
+  # 공통 태그
+  common_tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}

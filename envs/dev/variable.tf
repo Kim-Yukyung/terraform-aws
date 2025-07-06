@@ -1,3 +1,8 @@
+variable "aws_profile" {
+  type        = string
+  default     = "default"
+}
+
 # 데이터베이스 인증 정보
 variable "db_username" {
   description = "RDS 사용자 이름"

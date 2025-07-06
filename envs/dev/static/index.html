@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS S3 + CloudFront 정적 웹사이트</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AWS S3 + CloudFront</h1>
+            <p>🥳 정적 웹사이트 호스팅 성공!</p>
+        </header>
+        
+        <main>
+            <section class="features">
+                <h2>주요 기능</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>📦 S3 버킷</h3>
+                        <p>정적 파일 저장소</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🌐 CloudFront</h3>
+                        <p>글로벌 CDN</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔒 보안</h3>
+                        <p>Origin Access Control</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚡️ 성능</h3>
+                        <p>캐싱 최적화</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info">
+                <h2>배포 정보</h2>
+                <div class="info-grid">
+                    <div>
+                        <strong>배포 시간:</strong> <span id="deploy-time"></span>
+                    </div>
+                    <div>
+                        <strong>브라우저:</strong> <span id="user-agent"></span>
+                    </div>
+                    <div>
+                        <strong>언어:</strong> <span id="language"></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>Built with ❤️ using Terraform</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

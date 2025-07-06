@@ -180,3 +180,65 @@ module "rds" {
     ManagedBy   = "terraform"
   }
 }
+
+# S3 버킷 정책 (CloudFront에서만 접근 허용)
+resource "aws_s3_bucket_policy" "website" {
+  bucket = module.s3.bucket_id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "AllowCloudFrontServicePrincipal"
+        Effect    = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action   = "s3:GetObject"
+        Resource = "${module.s3.bucket_arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = module.cloudfront.distribution_arn
+          }
+        }
+      }
+    ]
+  })
+
+  depends_on = [module.s3, module.cloudfront]
+}
+
+# S3 모듈
+module "s3" {
+  source = "../../modules/s3"
+
+  prefix = "dev"
+
+  # 정적 파일 업로드
+  source_files_path = "${path.module}/static"
+
+  common_tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}
+
+# CloudFront 모듈
+module "cloudfront" {
+  source = "../../modules/cloudfront"
+
+  prefix = "dev"
+
+  # S3 버킷 정보
+  s3_bucket_name                    = module.s3.bucket_name
+  s3_bucket_regional_domain_name    = module.s3.bucket_regional_domain_name
+
+  # SSL 인증서
+  acm_certificate_arn = null
+
+  common_tags = {
+    Environment = "dev"
+    Project     = "aws"
+    ManagedBy   = "terraform"
+  }
+}

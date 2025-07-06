@@ -64,10 +64,10 @@ resource "aws_s3_object" "static_files" {
   bucket = aws_s3_bucket.web.id
   key    = each.value
   source = "${var.source_files_path}/${each.value}"
-  
+
   # 파일 확장자에 따른 content_type 설정
   content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
-  
+
   # 파일이 변경되었을 때만 업데이트
   etag = filemd5("${var.source_files_path}/${each.value}")
 }

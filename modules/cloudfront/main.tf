@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "web" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  price_class         = "PriceClass_All" # 모든 지역
+  price_class = "PriceClass_All" # 모든 지역
 
   # 기본 오리진 (S3)
   origin {

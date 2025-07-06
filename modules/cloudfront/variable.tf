@@ -3,6 +3,16 @@ variable "prefix" {
   type        = string
 }
 
+variable "s3_bucket_id" {
+  description = "S3 버킷 ID"
+  type        = string
+}
+
+variable "s3_bucket_arn" {
+  description = "S3 버킷 ARN"
+  type        = string
+}
+
 variable "s3_bucket_name" {
   description = "S3 버킷 이름"
   type        = string

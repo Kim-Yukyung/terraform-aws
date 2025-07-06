@@ -202,6 +202,8 @@ module "cloudfront" {
   prefix = "dev"
 
   # S3 버킷 정보
+  s3_bucket_id                   = module.s3.bucket_id
+  s3_bucket_arn                  = module.s3.bucket_arn
   s3_bucket_name                 = module.s3.bucket_name
   s3_bucket_regional_domain_name = module.s3.bucket_regional_domain_name
 

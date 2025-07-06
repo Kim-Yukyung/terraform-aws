@@ -17,3 +17,8 @@ output "origin_access_control_id" {
   description = "Origin Access Control ID"
   value       = aws_cloudfront_origin_access_control.web.id
 }
+
+output "origin_access_control_arn" {
+  description = "Origin Access Control ARN"
+  value       = aws_cloudfront_origin_access_control.web.arn
+}

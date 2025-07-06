@@ -7,6 +7,31 @@ resource "aws_cloudfront_origin_access_control" "web" {
   signing_protocol                  = "sigv4"
 }
 
+# S3 버킷 정책 - CloudFront Origin Access Control 허용
+resource "aws_s3_bucket_policy" "web" {
+  bucket = var.s3_bucket_id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontServicePrincipal"
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action   = "s3:GetObject"
+        Resource = "${var.s3_bucket_arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.web.arn
+          }
+        }
+      }
+    ]
+  })
+}
+
 # CloudFront
 resource "aws_cloudfront_distribution" "web" {
   enabled             = true

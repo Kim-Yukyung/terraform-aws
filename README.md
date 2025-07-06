@@ -8,7 +8,7 @@
 ### 아키텍처
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b3c52825-d4db-4bac-b64e-e867358c8118" alt="Architecture Diagram" width="80%"/>
+  <img src="https://github.com/user-attachments/assets/d7b094ee-fdba-4c16-aa17-facabfbabcfa" alt="Architecture Diagram" width="80%"/>
 </p>
 
 <br>

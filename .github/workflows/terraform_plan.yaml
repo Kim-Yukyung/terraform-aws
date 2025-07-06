@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Create terraform plan
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TF_VAR_db_username: ${{ secrets.DB_USERNAME }}
+      TF_VAR_db_password: ${{ secrets.DB_PASSWORD }}         
     steps:
       - name: Checkout
         uses: actions/checkout@v4

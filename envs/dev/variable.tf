@@ -1,6 +1,6 @@
 variable "aws_profile" {
-  type        = string
-  default     = null
+  type    = string
+  default = null
 }
 
 # 데이터베이스 인증 정보

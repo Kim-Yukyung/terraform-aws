@@ -6,3 +6,7 @@ locals {
     ManagedBy   = "terraform"
   }
 }
+
+locals {
+  prefix = "dev"
+}

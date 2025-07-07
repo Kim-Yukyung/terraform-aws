@@ -1,7 +1,7 @@
 module "vpc" {
   source = "../../modules/vpc"
 
-  prefix   = "dev"
+  prefix   = local.prefix
   vpc_cidr = "10.0.0.0/16"
 
   public_subnets = {
@@ -27,7 +27,7 @@ module "vpc" {
 module "security_groups" {
   source = "../../modules/security-groups"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   vpc_id = module.vpc.vpc_id
 
@@ -40,7 +40,7 @@ module "security_groups" {
 module "alb" {
   source = "../../modules/alb"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.public_subnet_ids
@@ -57,7 +57,7 @@ module "alb" {
 module "compute" {
   source = "../../modules/compute"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   private_subnet_ids     = module.vpc.private_subnet_ids
   availability_zones     = module.vpc.availability_zones
@@ -94,7 +94,7 @@ module "compute" {
 module "bastion" {
   source = "../../modules/bastion"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   # 네트워킹
   public_subnet_id   = module.vpc.public_subnet_ids[0] # 첫 번째 퍼블릭 서브넷 사용
@@ -122,7 +122,7 @@ module "bastion" {
 module "rds" {
   source = "../../modules/rds"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   db_username = var.db_username
   db_password = var.db_password
@@ -160,7 +160,7 @@ module "rds" {
 module "s3" {
   source = "../../modules/s3"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   # 정적 파일 업로드
   source_files_path = "${path.module}/static"
@@ -171,7 +171,7 @@ module "s3" {
 module "cloudfront" {
   source = "../../modules/cloudfront"
 
-  prefix = "dev"
+  prefix = local.prefix
 
   # S3 버킷 정보
   s3_bucket_id                   = module.s3.bucket_id

@@ -21,11 +21,7 @@ module "vpc" {
 
   enable_nat_gateway = true
 
-  tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  tags = local.common_tags
 }
 
 module "security_groups" {
@@ -38,11 +34,7 @@ module "security_groups" {
   allowed_alb_cidr_blocks = ["0.0.0.0/0"]
   allowed_ssh_cidr_blocks = ["0.0.0.0/0"]
 
-  tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  tags = local.common_tags
 }
 
 module "alb" {
@@ -59,11 +51,7 @@ module "alb" {
   target_group_port     = 8080
   target_group_protocol = "HTTP"
 
-  tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  tags = local.common_tags
 }
 
 module "compute" {
@@ -100,11 +88,7 @@ module "compute" {
   # 모니터링
   enable_detailed_monitoring = true
 
-  tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  tags = local.common_tags
 }
 
 module "bastion" {
@@ -132,11 +116,7 @@ module "bastion" {
   enable_detailed_monitoring = false
 
   # 공통 태그
-  tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  tags = local.common_tags
 }
 
 module "rds" {
@@ -174,11 +154,7 @@ module "rds" {
   performance_insights_enabled = false
 
   # 공통 태그
-  common_tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  common_tags = local.common_tags
 }
 
 module "s3" {
@@ -189,11 +165,7 @@ module "s3" {
   # 정적 파일 업로드
   source_files_path = "${path.module}/static"
 
-  common_tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  common_tags = local.common_tags
 }
 
 module "cloudfront" {
@@ -210,9 +182,5 @@ module "cloudfront" {
   # SSL 인증서
   acm_certificate_arn = null
 
-  common_tags = {
-    Environment = "dev"
-    Project     = "aws"
-    ManagedBy   = "terraform"
-  }
+  common_tags = local.common_tags
 }
